@@ -62,7 +62,6 @@
       margin: 0;
       width: 100%;
       transition: transform 0.5s;
-      border: 1px solid red;
       flex: 1 0 auto;
       display: flex;
       justify-content: center;
@@ -72,7 +71,7 @@
     .panel > *:first-child { transform: translateY(-100%); }
     .panel.open-active > *:first-child { transform: translateY(0); }
     .panel > *:last-child { transform: translateY(100%); }
-    .panel.open-active > *last-child { transform: translateY(0); }
+    .panel.open-active > *:last-child { transform: translateY(0); }
 
     .panel p {
       text-transform: uppercase;
@@ -86,6 +85,7 @@
     }
 
     .panel.open {
+      flex: 5;
       font-size: 40px;
     }
 
@@ -121,6 +121,23 @@
   </div>
 
   <script>
+
+    const panels = document.querySelectorAll('.panel');
+
+    function toggleOpen() {
+      this.classList.toggle('open');
+    }
+
+    function toggleActive(e) {
+      console.log(e.propertyName);
+      if (e.propertyName.includes('flex')) { 
+        // using the includes versus an absolute name of the property bc safari uses a different propertyName here than the other browsers
+        this.classList.toggle('open-active');
+      }
+    }
+
+    panels.forEach(panel => panel.addEventListener('click', toggleOpen));
+    panels.forEach(panel => panel.addEventListener('transitionend', toggleActive));
 
   </script>
 
